@@ -6,7 +6,7 @@ desc="link creates hardlinks"
 dir=`dirname $0`
 . ${dir}/../misc.sh
 
-echo "1..202"
+echo "1..248"
 
 n0=`namegen`
 n1=`namegen`
@@ -87,7 +87,29 @@ for type in regular fifo block char socket; do
 	dmtime2=`${fstest} stat . mtime`
 	test_check $dctime1 -eq $dmtime2
 	expect 0 unlink ${n0}
+	expect ENOENT unlink ${n1}
 done
+
+# now test with non-root user that does have permission
+expect 0 chmod . 0777
+for type in regular fifo block char socket; do
+	create_file ${type} ${n0}
+	expect 0 -- chown ${n0} 65534 -1
+	ctime1=`${fstest} stat ${n0} ctime`
+	dctime1=`${fstest} stat . ctime`
+	dmtime1=`${fstest} stat . mtime`
+	sleep 1
+	expect 0 -u 65534 link ${n0} ${n1}
+	ctime2=`${fstest} stat ${n0} ctime`
+	test_check $ctime1 -lt $ctime2
+	dctime2=`${fstest} stat . ctime`
+	test_check $dctime1 -lt $dctime2
+	dmtime2=`${fstest} stat . mtime`
+	test_check $dctime1 -lt $dmtime2
+	expect 0 unlink ${n0}
+	expect 0 unlink ${n1}
+done
+
 
 cd ${cdir}
 expect 0 rmdir ${n3}
