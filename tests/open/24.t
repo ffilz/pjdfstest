@@ -10,8 +10,20 @@ echo "1..5"
 
 n0=`namegen`
 
+case "${os}" in
+	FreeBSD)
+		result=EOPNOTSUPP
+		;;
+	SunOS)
+		result=EOPNOTSUPP
+		;;
+	Linux)
+		result=ENXIO
+		;;
+esac
+
 expect 0 bind ${n0}
-expect "EOPNOTSUPP" open ${n0} O_RDONLY
-expect "EOPNOTSUPP" open ${n0} O_WRONLY
-expect "EOPNOTSUPP" open ${n0} O_RDWR
+expect "${result}" open ${n0} O_RDONLY
+expect "${result}" open ${n0} O_WRONLY
+expect "${result}" open ${n0} O_RDWR
 expect 0 unlink ${n0}
