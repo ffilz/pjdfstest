@@ -34,11 +34,11 @@ for type in regular fifo block char socket symlink; do
 	for type in none regular fifo block char socket symlink; do
 		create_file ${type} ${n1}/${n3} 65534 65534
 		expect 0 -u 65534 -g 65534 rename ${n0}/${n2} ${n1}/${n3}
-		expect ENOENT lstat ${n0}/${n2} inode
+		expect ENOENT lstat ${n0}/${n2} type,inode
 		expect ${inode},65534,65534 lstat ${n1}/${n3} inode,uid,gid
 		expect 0 -u 65534 -g 65534 rename ${n1}/${n3} ${n0}/${n2}
 		expect ${inode} lstat ${n0}/${n2} inode
-		expect ENOENT lstat ${n1}/${n3} inode
+		expect ENOENT lstat ${n1}/${n3} type,inode
 	done
 
 	expect 0 unlink ${n0}/${n2}
@@ -52,11 +52,11 @@ for type in regular fifo block char socket symlink; do
 		for type in none regular fifo block char socket symlink; do
 			create_file ${type} ${n1}/${n3} 65534 65534
 			expect 0 -u 65534 -g 65534 rename ${n0}/${n2} ${n1}/${n3}
-			expect ENOENT lstat ${n0}/${n2} inode
+			expect ENOENT lstat ${n0}/${n2} type,inode
 			expect ${inode},${id},${id} lstat ${n1}/${n3} inode,uid,gid
 			expect 0 -u 65534 -g 65534 rename ${n1}/${n3} ${n0}/${n2}
 			expect ${inode} lstat ${n0}/${n2} inode
-			expect ENOENT lstat ${n1}/${n3} inode
+			expect ENOENT lstat ${n1}/${n3} type,inode
 		done
 
 		expect 0 unlink ${n0}/${n2}
@@ -71,11 +71,11 @@ for type in regular fifo block char socket symlink; do
 		for type in none regular fifo block char socket symlink; do
 			create_file ${type} ${n1}/${n3} 65534 65534
 			expect 0 -u 65534 -g 65534 rename ${n0}/${n2} ${n1}/${n3}
-			expect ENOENT lstat ${n0}/${n2} inode
+			expect ENOENT lstat ${n0}/${n2} type,inode
 			expect ${inode},65534,65534 lstat ${n1}/${n3} inode,uid,gid
 			expect 0 -u 65534 -g 65534 rename ${n1}/${n3} ${n0}/${n2}
 			expect ${inode} lstat ${n0}/${n2} inode
-			expect ENOENT lstat ${n1}/${n3} inode
+			expect ENOENT lstat ${n1}/${n3} type,inode
 		done
 
 		expect 0 unlink ${n0}/${n2}
