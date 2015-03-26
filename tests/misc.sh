@@ -27,9 +27,9 @@ expect()
 		fi
 	else
 		if [ -z "${todomsg}" ]; then
-			echo "not ok ${ntest} - tried '$*', expected ${e}, got ${r}"
+			echo "not ok ${ntest} - tried 'expect ${e}  $*', expected ${e}, got ${r}"
 		else
-			echo "not ok ${ntest} # TODO ${todomsg}"
+			echo "not ok ${ntest} - tried 'expect ${e}  $*', expected ${e}, got ${r} # TODO ${todomsg}"
 		fi
 	fi
 	todomsg=""
@@ -52,9 +52,9 @@ jexpect()
 		fi
 	else
 		if [ -z "${todomsg}" ]; then
-			echo "not ok ${ntest} - tried '$*', expected ${e}, got ${r}"
+			echo "not ok ${ntest} - tried 'jexpect ${e} ${d} ${e} $*', expected ${e}, got ${r}"
 		else
-			echo "not ok ${ntest} # TODO ${todomsg}"
+			echo "not ok ${ntest} - tried 'jexpect ${e} ${d} ${e} $*', expected ${e}, got ${r} # TODO ${todomsg}"
 		fi
 	fi
 	todomsg=""
@@ -71,9 +71,9 @@ test_check()
 		fi
 	else
 		if [ -z "${todomsg}" ]; then
-			echo "not ok ${ntest}"
+			echo "not ok ${ntest} - tried '$*'"
 		else
-			echo "not ok ${ntest} # TODO ${todomsg}"
+			echo "not ok ${ntest} - tried '$*' # TODO ${todomsg}"
 		fi
 	fi
 	todomsg=""
