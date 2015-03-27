@@ -123,17 +123,19 @@ dirgen_max()
 {
 	name_max=`${fstest} pathconf . _PC_NAME_MAX`
 	complen=$((name_max/2))
-	path_max=`${fstest} pathconf . _PC_PATH_MAX`
+	if [ -z "${path_max}" ]; then
+		path_max=`${fstest} pathconf . _PC_PATH_MAX`
+	fi
 	# "...including the terminating null character."
-	path_max=$((path_max-1))
+	path_max1=$((path_max-1))
 
 	name=""
 	while :; do
 		name="${name}`namegen_len ${complen}`/"
 		curlen=`printf "%s" "${name}" | wc -c`
-		[ ${curlen} -lt ${path_max} ] || break
+		[ ${curlen} -lt ${path_max1} ] || break
 	done
-	name=`echo "${name}" | cut -b -${path_max}`
+	name=`echo "${name}" | cut -b -${path_max1}`
 	name=`echo "${name}" | sed -E 's@/$@x@'`
 	printf "%s" "${name}"
 }
