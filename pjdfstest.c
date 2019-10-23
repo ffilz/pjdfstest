@@ -28,6 +28,10 @@
 
 #include <sys/param.h>
 #include <sys/types.h>
+/* Apparently newer gcc removes the include of sys/sysmacros.h from sys/types.h.
+ * Explicitly include it in hopes of things continuing to work.
+ */
+#include <sys/sysmacros.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <sys/un.h>
